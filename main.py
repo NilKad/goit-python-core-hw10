@@ -23,7 +23,6 @@ class Name(Field):
 class Phone(Field):
     # реалізація класу
     def __init__(self, phone):
-        # print(f"phone: {self.value}")
         if len(str(phone)) != 10 or not phone.isdigit():
             raise ValueError(f"{phone} not correct format")
         super().__init__(str(phone))
@@ -41,20 +40,21 @@ class Record:
         for phone_el in self.phones:
             if phone_el.value == phone:
                 return phone_el
-
-        raise ValueError(f"{phone} not found")
-        # return None
+        return None
+        # raise ValueError(f"{phone} not found")
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
 
     def remove_phone(self, phone):
         for_remove = self.find_phone(phone)
-        self.phones.remove(for_remove)
-        # self.phones = list(filter(lambda el: el.value != phone, self.phones))
+        if for_remove:
+            self.phones.remove(for_remove)
 
     def edit_phone(self, phone, new_phone):
         phone_el = self.find_phone(phone)
+        if not phone_el:
+            raise ValueError(f"{phone} not found")
         phone_el.value = new_phone
 
     def __str__(self):
@@ -89,15 +89,15 @@ class AddressBook(UserDict):
 
 book = AddressBook()
 
-b1 = Record("Alex")
-b1.add_phone("0503220000")
-b1.add_phone("0673220000")
-print(b1)
-book.add_record(b1)
-print(f'find_phone: {b1.find_phone("0503220000")}')
+# b1 = Record("Alex")
+# b1.add_phone("0503220000")
+# b1.add_phone("0673220000")
+# print(b1)
+# book.add_record(b1)
+# print(f'find_phone: {b1.find_phone("0503220000")}')
 # book.get("Alex").edit_phone("0503220000", "0953220000")
-# book.get("Alex").remove_phone("0673220000")
-print(b1)
+# book.get("Alex").remove_phone("0673220001")
+# print(b1)
 
 
 # b2 = Record("Bob")
@@ -113,20 +113,6 @@ print(b1)
 # print(book.get("Alex"))
 # # print(book.get("Alex").find_phone("789"))
 # print(book)
-
-# qaz = {}
-
-# if qaz:
-#     print("True")
-# else:
-#     print("False")
-
-
-# phonebook = [
-#     {"name": "Aleksandr", "phone": "+380671234567"},
-#     {"name": "Dima", "phone": "+380672345678"},
-#     {"name": "Nikita", "phone": "+380673456789"},
-# ]
 
 
 def print_boolean(bool):
@@ -254,7 +240,7 @@ def handler_phone(*args):
     if idx < 0:
         raise ValueError(f"{name} there is no such.")
     # print(phonebook[idx]["phone"])
-    return phonebook[idx]["phone"]
+    # return phonebook[idx]["phone"]
 
 
 # @input_error
